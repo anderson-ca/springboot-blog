@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: main-header"></head>
+<body>
+<nav th:replace="fragments/navbar :: mainNav"></nav>
+
+<h1>Guess a number between 1 and 6.</h1>
+
+<h3>Your Guess: <span th:text="${test}"></span></h3>
+
+<h3>Dice Roll: <span th:text="${rand}"></span></h3>
+
+
+<ul th:each="link : ${listGuess}">
+    <li>
+        <a th:href="${'/rolldice/' + link}" th:text="${'Guess: ' + link}"></a>
+    </li>
+</ul>
+
+<p th:text="${bingo}"></p>
+</body>
+</html>
