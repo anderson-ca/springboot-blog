@@ -11,6 +11,10 @@ public class Post {
         this.body = body;
     }
 
+    public Post() {
+
+    }
+
     public String getTitle() {
         return this.title;
     }
@@ -29,6 +33,6 @@ public class Post {
 
     public long getId() { return this.id; }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
 }

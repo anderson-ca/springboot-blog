@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: main-header"></head>
+<body>
+<nav th:replace="fragments/navbar :: mainNav"></nav>
+
+<form action="/posts/create" method="post" th:object="${post}" style="text-align: center">
+    Title:
+    <input th:field="*{title}" />
+    <br />
+    <br />
+    Post:
+    <input th:field="*{body}" />
+    <br />
+    <br />
+    <input style="width: 80px; margin-left: 48%" class="btn btn-block btn-primary" type="submit" value="Post" />
+</form>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
