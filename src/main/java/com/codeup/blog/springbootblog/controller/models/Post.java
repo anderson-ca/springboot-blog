@@ -1,10 +1,29 @@
 package com.codeup.blog.springbootblog.controller.models;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "posts")
 public class Post {
 
-    private String title;
-    private String body;
+    //////////////////////////////////////////////////////////////////////////////////
+    // Sets the ID as the primary key.
+    //////////////////////////////////////////////////////////////////////////////////
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Sets column value and if its nullable.
+    //////////////////////////////////////////////////////////////////////////////////
+    @Column(nullable = false, length = 100)
+    private String title;
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Sets column value and if its nullable.
+    // This mapping is equivalent to creating a MySQL table definition.
+    //////////////////////////////////////////////////////////////////////////////////
+    @Column(nullable = false)
+    private String body;
 
     public Post(String title, String body) {
         this.title = title;
