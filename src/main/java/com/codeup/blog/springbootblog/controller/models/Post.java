@@ -1,4 +1,7 @@
 package com.codeup.blog.springbootblog.controller.models;
+
+import com.codeup.blog.springbootblog.controller.repositories.UsersRepository;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,17 +25,35 @@ public class Post {
     // Sets column value and if its nullable.
     // This mapping is equivalent to creating a MySQL table definition.
     //////////////////////////////////////////////////////////////////////////////////
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Forms a bond to the user table retrieves the id related to an User instance
+    // in order to establish a relation between that user and this post.
+    //////////////////////////////////////////////////////////////////////////////////
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Post() {
+
+    }
 
     public Post(String title, String body) {
         this.title = title;
         this.body = body;
     }
 
-    public Post() {
-
+    public Post(String title, String body, Long id) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
     }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Setter and Getters
+    //////////////////////////////////////////////////////////////////////////////////
 
     public String getTitle() {
         return this.title;
@@ -50,8 +71,20 @@ public class Post {
         this.body = body;
     }
 
-    public long getId() { return this.id; }
+    public long getId() {
+        return this.id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
 
 }

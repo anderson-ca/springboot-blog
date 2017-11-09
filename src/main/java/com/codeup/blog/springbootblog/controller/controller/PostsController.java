@@ -1,7 +1,9 @@
 package com.codeup.blog.springbootblog.controller.controller;
 
 import com.codeup.blog.springbootblog.controller.models.Post;
+import com.codeup.blog.springbootblog.controller.models.User;
 import com.codeup.blog.springbootblog.controller.repositories.PostsRepository;
+import com.codeup.blog.springbootblog.controller.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.controller.services.PostSvc;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +19,16 @@ public class PostsController {
 
     private final PostsRepository postsDao;
 
+    private final UsersRepository usersDao;
+
     private final PostSvc postsSvc;
 
+
     @Autowired
-    public PostsController(PostsRepository postsDao, PostSvc postsSvc) {
+    public PostsController(PostsRepository postsDao, PostSvc postsSvc, UsersRepository usersDao) {
         this.postsDao = postsDao;
         this.postsSvc = postsSvc;
+        this.usersDao = usersDao;
     }
 
     // Constructor Injection.
@@ -39,6 +45,7 @@ public class PostsController {
     public String showPost(@PathVariable int id, Model vModel) {
 
         vModel.addAttribute("post", postsDao.findOne((long) id));
+//        vModel.addAttribute("user", usersDao.findOne((long) id));
 
         return "posts/show";
 
@@ -52,6 +59,8 @@ public class PostsController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
+        User user = usersDao.findOne(1L);
+        post.setUser(user);
         postsDao.save(post);
 
         return"redirect:/posts";
