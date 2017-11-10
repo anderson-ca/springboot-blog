@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false, unique = true)
@@ -26,6 +26,22 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
+
+    public User() {
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // This line is SUPER important! Many things won't work if it's absent (Copy constructor)
+    // used to create a new object using another object's property values. This will be used in
+    // order to fulfill the contract defined by the interfaces in the security package.
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    public User(User copy) {
+        id = copy.id;
+        name = copy.name;
+        email = copy.email;
+        password = copy.password;
+    }
 
     ///////////////////////////////////////////////////////////////////
     // Setters and Getters
