@@ -4,17 +4,16 @@
 <body>
 <nav th:replace="fragments/navbar :: mainNav"></nav>
 
-<form action="/posts/create" method="post" th:object="${post}" style="text-align: center">
-    Title:
-    <input th:field="*{title}" />
-    <br />
-    <br />
-    Post:
-    <input th:field="*{body}" />
-    <br />
-    <br />
-    <input style="width: 80px; margin-left: 48%" class="btn btn-block btn-primary" type="submit" value="Post" />
-</form>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <form
+                th:include="/posts/form :: form"
+                th:method="post"
+                th:action="@{/posts/create}"
+                th:object="${post}">
+        </form>
+    </div>
+</div>
 
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>

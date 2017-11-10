@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: main-header"></head>
+<body>
+<nav th:include="fragments/navbar :: mainNav"></nav>
+
+<div class="container">
+    <div class="row">
+        <h1>Create an Account</h1>
+        <form th:action="@{/register}" th:method="POST" th:object="${user}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <!--///////////////////////////////////////////////////////////////////
+                // This input goes to my User model setter. Therefore, is must match
+                // what I have in my setter/getter
+                ///////////////////////////////////////////////////////////////////-->
+                <input id="username" th:field="*{name}" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" th:field="*{email}" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" th:field="*{password}" class="form-control" />
+            </div>
+
+            <input value="Sign me up!" type="submit" class="btn btn-primary"/>
+        </form>
+    </div>
+</div>
+
+<footer th:include="fragments/footer :: footer"></footer>
+</body>
+</html>

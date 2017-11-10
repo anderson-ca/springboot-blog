@@ -45,7 +45,6 @@ public class PostsController {
     public String showPost(@PathVariable int id, Model vModel) {
 
         vModel.addAttribute("post", postsDao.findOne((long) id));
-//        vModel.addAttribute("user", usersDao.findOne((long) id));
 
         return "posts/show";
 
@@ -59,7 +58,7 @@ public class PostsController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
-        User user = usersDao.findOne(1L);
+        User user = usersDao.findOne(2L);
         post.setUser(user);
         postsDao.save(post);
 
