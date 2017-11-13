@@ -1,12 +1,18 @@
 package com.codeup.blog.springbootblog.controller.models;
 
 import com.codeup.blog.springbootblog.controller.repositories.UsersRepository;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "posts")
 public class Post {
+    //////////////////////////////////////////////////////////////////////////////////
+    // Validation
+    //////////////////////////////////////////////////////////////////////////////////
+
 
     //////////////////////////////////////////////////////////////////////////////////
     // Sets the ID as the primary key.
@@ -19,6 +25,8 @@ public class Post {
     // Sets column value and if its nullable.
     //////////////////////////////////////////////////////////////////////////////////
     @Column(nullable = false, length = 100)
+    @NotBlank(message = "Posts must have a title.")
+    @Size(min = 3, message = "A title must be at least three characters.")
     private String title;
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +34,7 @@ public class Post {
     // This mapping is equivalent to creating a MySQL table definition.
     //////////////////////////////////////////////////////////////////////////////////
     @Column(nullable = false, columnDefinition = "TEXT")
+    @NotBlank(message = "Posts must have a body.")
     private String body;
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -45,10 +54,11 @@ public class Post {
         this.body = body;
     }
 
-    public Post(String title, String body, Long id) {
+    public Post(String title, String body, Long id, User user) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.user = user;
     }
 
     //////////////////////////////////////////////////////////////////////////////////
