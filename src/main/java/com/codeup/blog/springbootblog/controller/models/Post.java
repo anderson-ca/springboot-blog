@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.controller.models;
 
 import com.codeup.blog.springbootblog.controller.repositories.UsersRepository;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -9,11 +10,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "posts")
 public class Post {
-    //////////////////////////////////////////////////////////////////////////////////
-    // Validation
-    //////////////////////////////////////////////////////////////////////////////////
-
-
     //////////////////////////////////////////////////////////////////////////////////
     // Sets the ID as the primary key.
     //////////////////////////////////////////////////////////////////////////////////
@@ -25,8 +21,8 @@ public class Post {
     // Sets column value and if its nullable.
     //////////////////////////////////////////////////////////////////////////////////
     @Column(nullable = false, length = 100)
-    @NotBlank(message = "Posts must have a title.")
-    @Size(min = 3, message = "A title must be at least three characters.")
+    @NotBlank(message = "Posts must have a title.") //// Validation
+    @Size(min = 3, message = "A title must be at least three characters.") //// Validation
     private String title;
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +30,7 @@ public class Post {
     // This mapping is equivalent to creating a MySQL table definition.
     //////////////////////////////////////////////////////////////////////////////////
     @Column(nullable = false, columnDefinition = "TEXT")
-    @NotBlank(message = "Posts must have a body.")
+    @NotBlank(message = "Posts must have a body.") //// Validation
     private String body;
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +39,14 @@ public class Post {
     //////////////////////////////////////////////////////////////////////////////////
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Sets the ID as the primary key.
+    //////////////////////////////////////////////////////////////////////////////////
+
+
 
     public Post() {
 
@@ -96,5 +99,6 @@ public class Post {
     public User getUser() {
         return this.user;
     }
+
 
 }

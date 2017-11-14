@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.Valid;
+import java.util.List;
 
 //////////////////////////////////////////////////////////////////////////////////
 // No hard logic should be accomplished in my controller. The only thing I should
@@ -76,6 +77,25 @@ public class PostsController {
         postsDao.save(post);
 
         return "redirect:/posts";
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Method used to display posts in JSON Format. Obs: the response body annotation
+    // tells Spring to skip the default behavior
+    //////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("/posts.json")
+    public @ResponseBody
+    Iterable<Post> viewAllPostsInJsonFormat() {
+        return postsDao.findAll();
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //
+    //////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/posts/ajax")
+    public String viewAllPostsWithAjax() {
+        return "posts/ajax";
     }
 
 }

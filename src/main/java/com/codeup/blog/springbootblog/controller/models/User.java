@@ -1,5 +1,8 @@
 package com.codeup.blog.springbootblog.controller.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.List;
 public class User {
 
     ///////////////////////////////////////////////////////////////////
-    // Fields
+    // Fields.
     ///////////////////////////////////////////////////////////////////
     @Id
     @GeneratedValue
@@ -23,10 +26,19 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore ///// Added so this information is ignored in body of the JSON request.
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
+
+    ///////////////////////////////////////////////////////////////////
+    // JSON usage.
+    ///////////////////////////////////////////////////////////////////
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Post> Jposts;
+
 
     public User() {
 
