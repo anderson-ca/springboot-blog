@@ -28,7 +28,7 @@
             </div>
 
             <input value="Sign me up!" type="submit" class="btn btn-primary"/>
-            <div th:if="!test">
+            <div th:if="test != null">
                 <p>You must be logged in to create a post</p>
             </div>
         </form>
