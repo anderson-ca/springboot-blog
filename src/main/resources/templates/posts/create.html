@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <form
-                th:include="/posts/form :: form"
+                th:include="/fragments/form :: form"
                 th:method="post"
                 th:action="@{/posts/create}"
                 th:object="${post}">

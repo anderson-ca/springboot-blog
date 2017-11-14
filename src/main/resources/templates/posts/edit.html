@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: main-header"></head>
 <body>
+<nav th:include="fragments/navbar :: mainNav"></nav>
 
+<form
+        th:include="/fragments/form :: form"
+        th:method="post"
+        th:action="@{${post.id}}"
+        th:object="${post}">
+</form>
+
+<footer th:include="fragments/footer :: footer"></footer>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.controller.controller;
 
 import com.codeup.blog.springbootblog.controller.models.Post;
+import com.codeup.blog.springbootblog.controller.models.User;
 import com.codeup.blog.springbootblog.controller.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.controller.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.controller.services.PostSvc;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,7 +31,10 @@ public class PostsController {
 
     private final PostSvc postsSvc;
 
-
+    //////////////////////////////////////////////////////////////////////////////////
+    // Constructor method for the post controller. Receiving Dependency injection from
+    // various models(classes).
+    //////////////////////////////////////////////////////////////////////////////////
     @Autowired
     public PostsController(PostsRepository postsDao, PostSvc postsSvc, UsersRepository usersDao, UserSvc usersSvc) {
         this.postsDao = postsDao;
@@ -38,7 +43,9 @@ public class PostsController {
         this.usersSvc = usersSvc;
     }
 
-    // Constructor Injection.
+    //////////////////////////////////////////////////////////////////////////////////
+    // display all posts in post table. -> Constructor Injection.
+    //////////////////////////////////////////////////////////////////////////////////
     @GetMapping("/posts")
     public String showAll(Model vModel) {
 
@@ -48,6 +55,9 @@ public class PostsController {
 
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    // Show individual post when clicked by the user.
+    //////////////////////////////////////////////////////////////////////////////////
     @GetMapping("/posts/{id}")
     public String showPost(@PathVariable int id, Model vModel) {
 
@@ -57,16 +67,23 @@ public class PostsController {
 
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    // Display form used in order to create new post.
+    //////////////////////////////////////////////////////////////////////////////////
     @GetMapping("/posts/create")
     public String showCreateForm(Model model) {
         model.addAttribute("post", new Post());
         return "posts/create";
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    // Create post and save the information input in the create form to the post table
+    //////////////////////////////////////////////////////////////////////////////////
     @PostMapping("/posts/create")
     public String createPost(@Valid Post post,
                              Errors validation,
-                             Model model
+                             Model model,
+                             RedirectAttributes redirect
     ) {
         if (validation.hasErrors()) {
             model.addAttribute("errors", validation);
@@ -75,12 +92,47 @@ public class PostsController {
         }
 
         if (!usersSvc.isLoggedIn()) {
-            model.addAttribute("test", usersSvc.isLoggedIn());
+            redirect.addFlashAttribute("test", true);
             return "redirect:/register";
         }
         post.setUser(usersSvc.loggedInUser());
         postsDao.save(post);
 
+        return "redirect:/posts";
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Display form used in order to edit existing post.
+    //////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("/posts/edit/{id}")
+    public String showEditForm(@PathVariable int id, Model vModel) {
+        vModel.addAttribute("post", postsDao.findOne((long) id));
+        return "posts/edit";
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Edit post and save the information input in the edit form to the post table
+    //////////////////////////////////////////////////////////////////////////////////
+    @PostMapping("/posts/edit/{id}")
+    public String editPost(@Valid Post post,
+                           Errors validation,
+                           Model model, @PathVariable int id, RedirectAttributes redirect
+
+    ) {
+
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/edit";
+        }
+
+        if (!usersSvc.isLoggedIn()) {
+            redirect.addFlashAttribute("test", true);
+            return "redirect:/register";
+        }
+
+        post.setUser(usersSvc.loggedInUser());
+        postsDao.save(post);
         return "redirect:/posts";
     }
 
@@ -95,9 +147,8 @@ public class PostsController {
     }
 
     //////////////////////////////////////////////////////////////////////////////////
-    //
+    // View all posts through a AJAX call using jQuery from the view.
     //////////////////////////////////////////////////////////////////////////////////
-
     @GetMapping("/posts/ajax")
     public String viewAllPostsWithAjax() {
         return "posts/ajax";

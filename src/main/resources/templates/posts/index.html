@@ -8,6 +8,7 @@
         <a th:href="${'/posts/' + post.id}" th:text="${post.title}"></a>
     </h1>
     <p th:text="${post.body}"></p>
+    <a th:href="${'/posts/edit/' + post.id}">Edit post</a>
 </div>
 <footer th:include="fragments/footer :: footer"></footer>
 </body>
