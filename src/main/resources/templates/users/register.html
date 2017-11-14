@@ -28,6 +28,9 @@
             </div>
 
             <input value="Sign me up!" type="submit" class="btn btn-primary"/>
+            <div th:if="!test">
+                <p>You must be logged in to create a post</p>
+            </div>
         </form>
     </div>
 </div>

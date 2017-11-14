@@ -73,6 +73,11 @@ public class PostsController {
             model.addAttribute("post", post);
             return "posts/create";
         }
+
+        if (!usersSvc.isLoggedIn()) {
+            model.addAttribute("test", usersSvc.isLoggedIn());
+            return "redirect:/register";
+        }
         post.setUser(usersSvc.loggedInUser());
         postsDao.save(post);
 
