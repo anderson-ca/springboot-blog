@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: main-header"></head>
 <body>
 <nav th:include="fragments/navbar :: mainNav"></nav>
-
+<!--Edit Form-->
 <form
         th:include="/fragments/form :: form"
         th:method="post"
@@ -11,6 +11,12 @@
         th:object="${post}">
 </form>
 
+<!--Delete Form-->
+<form th:method="post" th:action="@{'/posts/delete/' + ${post.id}}" th:object="${post}">
+    <div>
+        <input id="deleteButton" type="submit" class="btn btn-primary btn-block" value="Delete" />
+    </div>
+</form>
 <footer th:include="fragments/footer :: footer"></footer>
 </body>
 </html>

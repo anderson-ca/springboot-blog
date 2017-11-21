@@ -133,7 +133,7 @@ public class PostsController {
 
         post.setUser(usersSvc.loggedInUser());
         postsDao.save(post);
-        return "redirect:/posts";
+        return "redirect:/posts/profile";
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -152,6 +152,37 @@ public class PostsController {
     @GetMapping("/posts/ajax")
     public String viewAllPostsWithAjax() {
         return "posts/ajax";
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Display all posts the ID matches with logged in user ID
+    //////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("/posts/profile")
+    public String showLoggedUserPosts(Model vModel) {
+        if (!usersSvc.isLoggedIn()) {
+            return "redirect:/register";
+
+        }
+        User user = usersSvc.loggedInUser();
+        List<Post> posts = postsDao.findByUserId(user.getId());
+
+        vModel.addAttribute("posts", posts);
+
+        vModel.addAttribute("user", user);
+
+        return "posts/profile";
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Display all posts the ID matches with logged in user ID
+    //////////////////////////////////////////////////////////////////////////////////
+    @PostMapping("/posts/delete/{id}")
+    public String deletePost(@PathVariable int id) {
+
+        postsDao.delete( (long) id);
+
+        return "redirect:/posts/profile";
     }
 
 }
